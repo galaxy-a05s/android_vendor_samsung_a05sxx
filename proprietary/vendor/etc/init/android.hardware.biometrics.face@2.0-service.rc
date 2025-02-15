@@ -1,0 +1,4 @@
+service vendor.face-default /vendor/bin/hw/android.hardware.biometrics.face@2.0-service
+    class hal
+    user system
+    group camera system

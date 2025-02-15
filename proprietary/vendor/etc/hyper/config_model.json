@@ -1,0 +1,455 @@
+{
+  "Resources": [
+    {
+      "Name": "CPUMinFreq",
+      "ID" : "0x12001001",
+      "Handler" : "qc",
+      "FreqTablePath" : "/sys/devices/system/cpu/cpufreq/policy4/scaling_available_frequencies",
+      "BoostPath" : "0x40800000",
+      "Formula": "x / 1000",
+      "Priority" : "high"
+    },
+    {
+      "Name": "CPUMaxFreq",
+      "ID" : "0x12001002",
+      "Handler" : "qc",
+      "FreqTablePath" : "/sys/devices/system/cpu/cpufreq/policy4/scaling_available_frequencies",
+      "BoostPath" : "0x40804000",
+      "Formula": "x / 1000",
+      "Priority" : "low"
+    },    
+    {
+      "Name": "CPULittleMaxFreq",
+      "Formula": "x / 1000",
+      "Handler": "qc",
+      "FreqTablePath": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies",
+      "BoostPath": "0x40804100",
+      "DefaultValue": "100#"
+    },
+    {
+      "Name": "CPULittleMinFreq",
+      "Formula": "x / 1000",
+      "Handler": "qc",
+      "FreqTablePath": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies",
+      "BoostPath": "0x40800100",
+      "DefaultValue": "0#"
+    },
+    {
+      "Name": "SchedBoost",
+      "ID" : "0x12002001",
+      "Handler" : "qc",
+      "BoostPath" : "0x40C00000",
+      "MaxValue" : "3",
+      "MinValue" : "0",
+      "Priority" : "low"
+    },
+    {
+      "Name": "DDRMinFreq",
+      "Handler" : "sysfs",
+      "Formula": "x * 1000",
+      "FreqTablePath" : "/sys/devices/system/cpu/bus_dcvs/DDR/available_frequencies",
+      "BoostPath": "/sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:gold/min_freq"
+    },
+    {
+      "Name": "TABoost",
+      "Handler" : "qc",
+      "BoostPath" : "0x40CAC000",
+      "DefaultValue": "0",
+      "MaxValue" : "100",
+      "MinValue" : "0",
+      "Priority" : "high"
+    },
+    {
+      "Name": "DDRBoostFreq",
+      "ID" : "0x43498000",
+      "Handler" : "qc",
+      "FreqTablePath" : "/sys/devices/system/cpu/bus_dcvs/DDR/available_frequencies",
+      "BoostPath": "0x43498000",
+      "MaxValue" : "",
+      "MinValue" : "",
+      "Priority" : "high",
+      "Dump": "1"
+    },
+    {
+      "Name": "ClkScaleDisable",
+      "ID" : "0x42C10000",
+      "Handler" : "qc",
+      "FreqTablePath" : "",
+      "BoostPath": "0x42C10000",
+      "DefaultValue": "0",
+      "MaxValue" : "1",
+      "MinValue" : "0",
+      "Priority" : "high",
+      "Dump": "1"
+    }
+  ],
+  "Hints": [
+    {
+      "Hint": "AMS_RESUME",
+      "ID": "1",
+      "Duration": "600",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "70#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "70#"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_RELAUNCH_RESUME",
+      "ID": "2",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "70#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "70#"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_ACT_RESUME",
+      "ID": "3",
+      "Duration": "-1",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "70#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "70#"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_ACT_START",
+      "ID": "4",
+      "Duration": "-1",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "70#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "70#"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_RESUME_TAIL",
+      "ID": "5",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_APP_HOME",
+      "ID": "8",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "100#"
+        }
+      ]
+    },
+    {
+      "Hint": "GALLERY_TOUCH",
+      "ID": "9",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "GALLERY_TOUCH_TAIL",
+      "ID": "10",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "40#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "40#"
+        }
+      ]
+    },
+    {
+      "Hint": "GALLERY_SCROLL",
+      "ID": "11",
+      "Duration": "-1",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "40#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "40#"
+        }
+      ]
+    },
+    {
+      "Hint": "LAUNCHER_TOUCH",
+      "ID": "12",
+      "Duration": "1000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "LISTVIEW_SCROLL",
+      "ID": "16",
+      "Duration": "1000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "40#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "40#"
+        }
+      ]
+    },
+    {
+      "Hint": "APP_LAUNCH",
+      "ID": "18",
+      "Duration": "1500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "SchedBoost",
+          "Value": "2"
+        },
+        {
+          "Resource": "TABoost",
+          "Value": "1"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_APP_LAUNCH",
+      "Duration": "2000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "SchedBoost",
+          "Value": "2"
+        },
+        {
+          "Resource": "TABoost",
+          "Value": "1"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_APP_LAUNCH_M",
+      "Duration": "3000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "SchedBoost",
+          "Value": "2"
+        },
+        {
+          "Resource": "TABoost",
+          "Value": "1"
+        }
+      ]
+    },
+    {
+      "Hint": "AMS_APP_LAUNCH_LM",
+      "Duration": "5000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "100#"
+        },
+        {
+          "Resource": "SchedBoost",
+          "Value": "2"
+        },
+        {
+          "Resource": "TABoost",
+          "Value": "1"
+        }
+      ]
+    },
+    {
+      "Hint": "DEVICE_WAKEUP",
+      "ID": "19",
+      "Duration": "1000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "HOME_KEY_TOUCH",
+      "ID": "14",
+      "Duration": "1000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "CONTACT_SCROLL",
+      "ID": "20",
+      "Duration": "1000",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "55#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "55#"
+        }
+      ]
+    },
+    {
+      "Hint": "BADGE_UPDATE",
+      "ID": "26",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "40#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "40#"
+        }
+      ]
+    },
+    {
+      "Hint": "GESTURE_DETECTED",
+      "ID": "22",
+      "Duration": "500",
+      "ResoureList": [
+        {
+          "Resource": "CPUMinFreq",
+          "Value": "40#"
+        },
+        {
+          "Resource": "CPULittleMinFreq",
+          "Value": "40#"
+        }
+      ]
+    },
+    {
+      "Hint": "KBD_APP_FIRST_START_VIEW",
+      "ID" : "2340",
+      "Duration": "800",
+      "ResoureList": [
+        {
+            "Resource" : "CPULittleMinFreq",
+            "Value" : "100#"
+        },
+        {
+          "Resource" : "DDRBoostFreq",
+          "Value" : "100#"
+        },
+        {
+          "Resource" : "ClkScaleDisable",
+          "Value" : "1"
+        }
+      ]
+    },
+    {
+      "Hint": "KBD_APP_RE_ENTER_VIEW",
+      "ID" : "2341",
+      "Duration": "400",
+      "ResoureList": [
+        {
+            "Resource" : "CPULittleMinFreq",
+            "Value" : "85#"
+        },
+        {
+          "Resource" : "DDRBoostFreq",
+          "Value" : "100#"
+        },
+        {
+          "Resource" : "ClkScaleDisable",
+          "Value" : "1"
+        }
+      ]
+    }
+  ]
+}

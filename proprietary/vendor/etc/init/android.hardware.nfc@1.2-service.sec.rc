@@ -1,0 +1,15 @@
+on post-fs-data
+    chown nfc nfc /dev/sec-nfc
+    chmod 0770 /dev/sec-nfc
+# Add by TS in 20220310 start
+on boot && property:ro.boot.NFCFlag=1
+   start nfc_hal_service
+# Add by TS in 20220310 end
+service nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.sec
+    class hal
+    user nfc
+    group nfc
+	group nfc net_bt_admin
+    # Add by TS in 20230310 start
+    disabled
+    # Add by TS in 20220310 end

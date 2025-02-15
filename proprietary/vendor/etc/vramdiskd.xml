@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<records>
+<boot_file>/system/framework/services.jar</boot_file>
+<boot_file>/system/framework/oat/arm64/services.odex</boot_file>
+<boot_file>/system/framework/framework.jar</boot_file>
+<boot_file>/system/priv-app/TouchWizHome_2017/TouchWizHome_2017.apk</boot_file>
+<boot_file>/system/priv-app/TouchWizHome_2017/oat/arm64/TouchWizHome_2017.odex</boot_file>
+<boot_file>/system/framework/arm64/boot-framework.oat</boot_file>
+<boot_file>/system/framework/arm/boot-framework.oat</boot_file>
+<boot_file>/system/lib64/libhwui.so</boot_file>
+<boot_file>/system/lib/libhwui.so</boot_file>
+<boot_file>/apex/com.android.art/lib/libart.so</boot_file>
+<boot_file>/system/lib64/libgui.so</boot_file>
+<boot_file>/system/framework/UxPerformance.jar</boot_file>
+<boot_file>/system/framework/gamesdk.jar</boot_file>
+<boot_file>/vendor/lib64/libllvm-qgl.so</boot_file>
+<boot_file>/system/lib64/libpdfium.so</boot_file>
+<boot_file>/system/lib64/libstagefright.so</boot_file>
+<boot_file>/system/lib64/libharfbuzz_ng.so</boot_file>
+<boot_file>/system/lib64/libsqlite.so</boot_file>
+<boot_file>/system/lib64/libxml2.so</boot_file>
+</records>

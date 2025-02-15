@@ -1,0 +1,706 @@
+on post-fs
+    mkdir /mnt/vendor/productinfo 0771 system system
+    mkdir /efs 0771 system radio
+    restorecon_recursive /efs
+
+    mkdir /efs/FactoryApp 0775 system system
+    mkdir /efs/imei 0775 root radio
+    mkdir /efs/wifi 0775 system system
+    mkdir /efs/bluetooth 0775 system system
+    mkdir /mnt/vendor/efs/DAK/ 0775 system system
+    mkdir /mnt/vendor/efs/wifi 0775 system system
+    mkdir /mnt/vendor/efs/bluetooth 0775 system system
+
+    chown root system /efs/FactoryApp/control_no
+    chown radio system /efs/imei/mps_code.dat
+    chown system system /efs/bluetooth/bt_addr
+    chown system system /efs/wifi/.mac.info
+    chown system system /efs/FactoryApp/copr
+    chown system system /efs/FactoryApp/plantpr
+    chown system system /efs/FactoryApp/cal_date
+    chown system system /efs/FactoryApp/OmitData
+    chown system system /efs/imei/countryiso_code.json
+    chown system system /efs/FactoryApp/cteicode
+    chown system system /efs/imei/assemble
+    chown system system /efs/FactoryApp/serialno
+    chown system system /efs/FactoryApp/hw_ver
+    chown system system /mnt/vendor/efs/DAK/
+    chown root system /sys/class/power_supply/bbc/device/shipmode
+
+    chmod 0664 /efs/bluetooth/bt_addr
+    chmod 0664 /efs/wifi/.mac.info
+    chmod 0666 /mnt/vendor/efs/wifi/.mac.info
+    chmod 0664 /efs/imei/mps_code.dat
+    chmod 0664 /efs/FactoryApp/copr
+    chmod 0664 /efs/FactoryApp/plantpr
+    chmod 0664 /efs/FactoryApp/cal_date
+    chmod 0664 /efs/FactoryApp/control_no
+    chmod 0664 /efs/FactoryApp/OmitData
+    chmod 0664 /efs/imei/countryiso_code.json
+    chmod 0664 /efs/FactoryApp/cteicode
+    chmod 0664 /efs/imei/assemble
+    chmod 0664 /efs/FactoryApp/serialno
+    chmod 0664 /efs/FactoryApp/hw_ver
+    chmod 0664 /mnt/vendor/efs/DAK/gakkeybox
+
+    chmod 0220 /sys/class/power_supply/bbc/device/shipmode
+
+#enable sar1
+on property:sys.sar1.enable=1
+    write /sys/bus/i2c/drivers/SX933x/1-0028/enable 0xC
+
+#disable sar1
+on property:sys.sar1.enable=0
+    write /sys/bus/i2c/drivers/SX933x/1-0028/enable 0x0
+
+#enable sar2
+on property:sys.sar2.enable=1
+    write /sys/class/hx9031as/channel_en 0,1
+    write /sys/class/hx9031as/channel_en 1,1
+
+#disable sar2
+on property:sys.sar2.enable=0
+    write /sys/class/hx9031as/channel_en 0,0
+    write /sys/class/hx9031as/channel_en 1,0
+
+on boot
+    # M269 add for saving files of TP selftest
+    mkdir /data/vendor/touchpad
+    chown system system /data/vendor/touchpad
+    chmod 0775 /data/vendor/touchpad
+    setprop ro.vendor.wifi.sap.interface swlan0
+
+on post-fs-data
+    # create camera dir used by dualcamera calibration add by william.cai@bst.ai
+    mkdir /mnt/vendor/persist/camera 0770 camera camera
+
+	#Create folder of camera
+    mkdir /data/vendor/camera 0777 system system
+    write /data/vendor/camera/Capture3AData.dat 0
+    chown system system /data/vendor/camera/Capture3AData.dat
+    chmod 0777 /data/vendor/camera/Capture3AData.dat
+
+on property:sys.boot_completed=1
+    chmod 0666 /sys/class/leds/vibrator/brightness
+    chown system system /sys/class/leds/vibrator/brightness
+    chown system system /sys/class/leds/vibrator/trigger
+    chown system system /sys/class/leds/vibrator/activate
+    chown system system /sys/class/leds/vibrator/brightness
+    chown system system /sys/class/leds/vibrator/duration
+    chown system system /sys/class/leds/vibrator/state
+    chmod 0666 /sys/class/leds/vibrator/state
+    chmod 0666 /sys/class/leds/vibrator/duration
+    chmod 0666 /sys/class/leds/vibrator/activate
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/register_write
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/register_read
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/register_write
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/register_read
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/enable
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/wifi_status
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/main_status
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/raw_data
+    chown root system /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/anfr_status
+    chown root system /sys/class/hx9031as/calibrate
+    chown root system /sys/class/hx9031as/channel_en
+    chown root system /sys/class/hx9031as/wifi_status
+    chown root system /sys/class/hx9031as/main_status
+    chown root system /sys/class/hx9031as/raw_data
+    chown root system /sys/class/hx9031as/anfr_status
+    chown root system /sys/class/hx9031as/lp_diff
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/enable
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/wifi_status
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/main_status
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/raw_data
+    chmod 0660 /sys/devices/platform/soc/4ac0000.qcom,qupv3_0_geni_se/4a88000.i2c/i2c-1/1-0028/anfr_status
+    chmod 0660 /sys/class/hx9031as/calibrate
+    chmod 0660 /sys/class/hx9031as/channel_en
+    chmod 0660 /sys/class/hx9031as/wifi_status
+    chmod 0660 /sys/class/hx9031as/main_status
+    chmod 0660 /sys/class/hx9031as/raw_data
+    chmod 0660 /sys/class/hx9031as/anfr_status
+    chmod 0660 /sys/class/hx9031as/lp_diff
+    chmod 0777 /sys/class/camera/flash/rear_flash
+    chown system system /sys/class/camera/flash/rear_flash
+    chown system system /sys/class/power_supply/battery/lcd
+    chown root root /sys/class/fingerprint/fingerprint/adm
+    chmod 0777 /sys/class/fingerprint/fingerprint/adm
+    chown system system /sys/class/sec/switch/afc_disable
+    chown system system /sys/class/power_supply/battery/store_mode
+
+#zhangsen1 factory test start
+service agmhostless_headphone /system/vendor/bin/agmhostless -D 100 -P 103 -C 104 -p 1024 -n 4 -inputc 1 -outputc 2 -r 48000 T 200 -i 0 -o 0 -pkv 0xA2000002
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service agmhostless_spk /system/vendor/bin/agmhostless -D 100 -P 103 -C 104 -p 1024 -n 4 -inputc 1 -outputc 1 -r 48000 T 200 -i 0 -o 1 -pkv 0xA2000001
+    user root
+    group root audio
+    disabled
+    oneshot
+	
+service agmhostless_rec /system/vendor/bin/agmhostless -D 100 -P 103 -C 104 -p 1024 -n 4 -inputc 1 -outputc 1 -r 48000 T 200 -i 0 -o 0 -pkv 0xA2000001
+    user root
+    group root audio
+    disabled
+    oneshot
+	
+#zhangsen1
+service playback_start_spk_open /vendor/bin/playback.sh 1 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_spk_close /vendor/bin/playback.sh 1 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_open /vendor/bin/playback.sh 2 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_close /vendor/bin/playback.sh 2 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+#zhangsen1
+service playback_start_spk_sweep_open /vendor/bin/playback_sweep_sound.sh 1 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_spk_sweep_close /vendor/bin/playback_sweep_sound.sh 1 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_sweep_open /vendor/bin/playback_sweep_sound.sh 2 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_sweep_close /vendor/bin/playback_sweep_sound.sh 2 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_headphone_open /vendor/bin/playback.sh 25 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_headphone_close /vendor/bin/playback.sh 25 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_spk_open_at /vendor/bin/AT_playback_1K.sh 1 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_spk_close_at /vendor/bin/AT_playback_1K.sh 1 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_open_at /vendor/bin/AT_playback_1K.sh 2 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service playback_start_rec_close_at /vendor/bin/AT_playback_1K.sh 2 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_handsetmic_open /vendor/bin/record.sh 9 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_handsetmic_close /vendor/bin/record.sh 9 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_speakermic_open /vendor/bin/record.sh 10 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_speakermic_close /vendor/bin/record.sh 10 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_headsetrmic_open /vendor/bin/record.sh 11 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service record_start_headsetmic_close /vendor/bin/record.sh 11 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_handsetmic_headphone_open /vendor/bin/record_playback.sh 3 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_handsetmic_headphone_close /vendor/bin/record_playback.sh 3 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakermic_headphone_open /vendor/bin/record_playback.sh 4 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakermic_headphone_close /vendor/bin/record_playback.sh 4 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+
+service loopback_start_headsetmic_headphone_open /vendor/bin/record_playback.sh 12 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headsetmic_headphone_close /vendor/bin/record_playback.sh 12 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headsetmic_speak_open /vendor/bin/record_playback.sh 5 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headsetmic_speak_close /vendor/bin/record_playback.sh 5 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+service loopback_start_handsetmic_speak_open /vendor/bin/record_playback.sh 13 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_handsetmic_speak_close /vendor/bin/record_playback.sh 13 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakmic_speak_open /vendor/bin/record_playback.sh 14 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakmic_speak_close /vendor/bin/record_playback.sh 14 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+service loopback_start_speak_speakmic_open /vendor/bin/loopback.sh 8 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speak_speakmic_close /vendor/bin/loopback.sh 8 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+service loopback_start_headsetmic_receiver_open /vendor/bin/record_playback.sh 6 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headsetmic_receiver_close /vendor/bin/record_playback.sh 6 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_handsetmic_receiver_open /vendor/bin/record_playback.sh 15 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_handsetmic_receiver_close /vendor/bin/record_playback.sh 15 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakmic_receiver_open /vendor/bin/record_playback.sh 16 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speakmic_receiver_close /vendor/bin/record_playback.sh 16 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+service loopback_start_headphone_handsetmic_open /vendor/bin/loopback.sh 18 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headphone_handsetmic_close /vendor/bin/loopback.sh 18 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headphone_speakermic_open /vendor/bin/loopback.sh 20 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headphone_speakermic_close /vendor/bin/loopback.sh 20 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headphone_headsetmic_open /vendor/bin/loopback.sh 24 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_headphone_headsetmic_close /vendor/bin/loopback.sh 24 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speak_headsetmic_open /vendor/bin/loopback.sh 22 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speak_headsetmic_close /vendor/bin/loopback.sh 22 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speak_handsetmic_open /vendor/bin/loopback.sh 17 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_speak_handsetmic_close /vendor/bin/loopback.sh 17 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+
+service loopback_start_receiver_headsetmic_open /vendor/bin/loopback.sh 23 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_receiver_headsetmic_close /vendor/bin/loopback.sh 23 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_receiver_handsetmic_open /vendor/bin/loopback.sh 7 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_receiver_handsetmic_close /vendor/bin/loopback.sh 7 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_receiver_speakmic_open /vendor/bin/loopback.sh 19 1
+    user root
+    group root audio
+    disabled
+    oneshot
+
+service loopback_start_receiver_speakmic_close /vendor/bin/loopback.sh 19 0
+    user root
+    group root audio
+    disabled
+    oneshot
+
+on property:persist.sys.playback-spk=1
+    start playback_start_spk_open
+
+on property:persist.sys.playback-spk=0
+    start playback_start_spk_close
+
+on property:persist.sys.playback-rec=1
+    start playback_start_rec_open
+
+on property:persist.sys.playback-rec=0
+    start playback_start_rec_close
+
+on property:persist.sys.playback-spk-sweep=1
+    start playback_start_spk_sweep_open
+
+on property:persist.sys.playback-spk-sweep=0
+    start playback_start_spk_sweep_close
+
+on property:persist.sys.playback-rec-sweep=1
+    start playback_start_rec_sweep_open
+
+on property:persist.sys.playback-rec-sweep=0
+    start playback_start_rec_sweep_close
+
+on property:persist.sys.playback-headphone=1
+    start playback_start_headphone_open
+
+on property:persist.sys.playback-headphone=0
+    start playback_start_headphone_close
+
+on property:persist.sys.playback-spk_at=1
+    start playback_start_spk_open_at
+
+on property:persist.sys.playback-spk_at=0
+    start playback_start_spk_close_at
+
+on property:persist.sys.playback-rec_at=1
+    start playback_start_rec_open_at
+
+on property:persist.sys.playback-rec_at=0
+    start playback_start_rec_close_at
+
+on property:persist.sys.record-handsetmic=1
+    start record_start_handsetmic_open
+
+on property:persist.sys.record-handsetmic=0
+    start record_start_handsetmic_close
+
+on property:persist.sys.record-speakermic=1
+    start record_start_speakermic_open
+
+on property:persist.sys.record-speakermic=0
+    start record_start_speakermic_close
+
+on property:persist.sys.record-headsetmic=1
+    start record_start_headsetrmic_open
+
+on property:persist.sys.record-headsetmic=0
+    start record_start_headsetmic_close
+	
+on property:persist.sys.loopback-handsetmic-headphone=1
+    start loopback_start_handsetmic_headphone_open
+
+on property:persist.sys.loopback-handsetmic-headphone=0
+    start loopback_start_handsetmic_headphone_close
+	
+on property:persist.sys.loopback-speakermic-headphone=1
+    start loopback_start_speakermic_headphone_open
+
+on property:persist.sys.loopback-speakermic-headphone=0
+    start loopback_start_speakermic_headphone_close
+		
+on property:persist.sys.loopback-headsetmic-headphone=1
+    start loopback_start_headsetmic_headphone_open
+
+on property:persist.sys.loopback-headsetmic-headphone=0
+    start loopback_start_headsetmic_headphone_close
+	
+on property:persist.sys.loopback-headsetmic-speak=1
+    start loopback_start_headsetmic_speak_open
+
+on property:persist.sys.loopback-headsetmic-speak=0
+    start loopback_start_headsetmic_speak_close
+
+on property:persist.sys.loopback-handsetmic-speak=1
+    start loopback_start_handsetmic_speak_open
+
+on property:persist.sys.loopback-handsetmic-speak=0
+    start loopback_start_handsetmic_speak_close
+	
+on property:persist.sys.loopback-speakmic-speak=1
+    start loopback_start_speakmic_speak_open
+
+on property:persist.sys.loopback-speakmic-speak=0
+    start loopback_start_speakmic_speak_close
+	
+on property:persist.sys.loopback-headsetmic-receiver=1
+    start loopback_start_headsetmic_receiver_open
+
+on property:persist.sys.loopback-headsetmic-receiver=0
+    start loopback_start_headsetmic_receiver_close
+
+on property:persist.sys.loopback-handsetmic-receiver=1
+    start loopback_start_handsetmic_receiver_open
+
+on property:persist.sys.loopback-handsetmic-receiver=0
+    start loopback_start_handsetmic_receiver_close
+	
+on property:persist.sys.loopback-speakmic-receiver=1
+    start loopback_start_speakmic_receiver_open
+
+on property:persist.sys.loopback-speakmic-receiver=0
+    start loopback_start_speakmic_receiver_close
+	
+on property:persist.sys.loopback-headphone-handsetmic=1
+    start loopback_start_headphone_handsetmic_open
+
+on property:persist.sys.loopback-headphone-handsetmic=0
+    start loopback_start_headphone_handsetmic_close
+	
+on property:persist.sys.loopback-headphone-speakermic=1
+    start loopback_start_headphone_speakermic_open
+
+on property:persist.sys.loopback-headphone-speakermic=0
+    start loopback_start_headphone_speakermic_close
+		
+on property:persist.sys.loopback-headphone-headsetmic=1
+    start loopback_start_headphone_headsetmic_open
+
+on property:persist.sys.loopback-headphone-headsetmic=0
+    start loopback_start_headphone_headsetmic_close
+	
+on property:persist.sys.loopback-speak-headsetmic=1
+    start loopback_start_speak_headsetmic_open
+
+on property:persist.sys.loopback-speak-headsetmic=0
+    start loopback_start_speak_headsetmic_close
+
+on property:persist.sys.loopback-speak-handsetmic=1
+    start loopback_start_speak_handsetmic_open
+
+on property:persist.sys.loopback-speak-handsetmic=0
+    start loopback_start_speak_handsetmic_close
+	
+on property:persist.sys.loopback-speak-speakmic=1
+    start loopback_start_speak_speakmic_open
+
+on property:persist.sys.loopback-speak-speakmic=0
+    start loopback_start_speak_speakmic_close
+	
+on property:persist.sys.loopback-receiver-headsetmic=1
+    start loopback_start_receiver_headsetmic_open
+
+on property:persist.sys.loopback-receiver-headsetmic=0
+    start loopback_start_receiver_headsetmic_close
+
+on property:persist.sys.loopback-receiver-handsetmic=1
+    start loopback_start_receiver_handsetmic_open
+
+on property:persist.sys.loopback-receiver-handsetmic=0
+    start loopback_start_receiver_handsetmic_close
+	
+on property:persist.sys.loopback-receiver-speakmic=1
+    start loopback_start_receiver_speakmic_open
+
+on property:persist.sys.loopback-receiver-speakmic=0
+    start loopback_start_receiver_speakmic_close
+
+
+service loopback_spk_start /vendor/bin/loopback.sh 1 1
+    user root
+    group root audio
+    disabled
+    oneshot
+service loopback_spk_stop /vendor/bin/loopback.sh 1 0
+    user root
+    group root audio
+    disabled
+    oneshot
+on property:odm.loopback-spk=1
+    start loopback_spk_start
+on property:odm.loopback-spk=0
+    start loopback_spk_stop
+
+#zhangsen1 factory test end
+
+on property:sys.chown.imei.dir=allow_system
+    chown system radio /efs/imei
+
+on property:sys.chown.imei.dir=default
+    chown root radio /efs/imei
+
+on property:sys.chmod.wifi_mac.file=allow_system
+    chown system wifi /mnt/vendor/efs/wifi
+    chown system wifi /mnt/vendor/efs/wifi/.mac.info
+    chmod 0775 /mnt/vendor/efs/wifi/
+    chmod 0664 /mnt/vendor/efs/wifi/.mac.info
+
+on property:sys.chmod.wifi_mac.file=default
+    chown wifi wifi /mnt/vendor/efs/wifi
+    chown wifi wifi /mnt/vendor/efs/wifi/.mac.info
+    chmod 0755 /mnt/vendor/efs/wifi/
+    chmod 0644 /mnt/vendor/efs/wifi/.mac.info
+
+#lc_sar_service
+on property:sys.lc.rf.sar_id=*
+    start lc_sar_service
+
+service lc_sar_service /vendor/bin/sh /vendor/bin/libsar.sh ${sys.lc.rf.sar_id}
+    user system
+    group system
+    oneshot
+    seclabel u:r:vnd_libsar_service:s0
